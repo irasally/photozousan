@@ -12,7 +12,6 @@ module Photozousan
     id = gets.chop.to_s
     print 'your photozou password?:'
     pass = STDIN.noecho(&:gets).chop
-    p pass
     Client.new(id, pass).dowmload_all_images(album_id, limit)
   end
 end
