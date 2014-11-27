@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'photozousan'
+
+Photozousan.run
