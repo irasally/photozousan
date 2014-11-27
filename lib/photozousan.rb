@@ -3,11 +3,16 @@ require "photozousan/client"
 require 'io/console'
 
 module Photozousan
-  def self.run(album_id, limit=100)
-    puts 'your photozou id?:'
+  def self.run
+    print 'donwload photozou-album id?:'
+    album_id = gets.to_i
+    print 'donwload image limit?(1-1000):'
+    limit = gets.to_i
+    print 'your photozou id?:'
     id = gets.chop.to_s
-    puts 'your photozou password?:'
-    pass = STDIN.noecho(&:gets)
+    print 'your photozou password?:'
+    pass = STDIN.noecho(&:gets).chop
+    p pass
     Client.new(id, pass).dowmload_all_images(album_id, limit)
   end
 end
