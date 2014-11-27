@@ -30,7 +30,7 @@ module Photozousan
     end
 
     def get_all_photos(album_id, limit)
-      print 'getting all image-urls....'
+      print "\ngetting all image-urls...."
       uri = URI.parse('https://api.photozou.jp/rest/photo_album_photo.json')
       q = {:album_id => album_id, :limit => limit}
       query = URI.escape( q.map{|k, v| "#{k}=#{v}"}.join('&') )
