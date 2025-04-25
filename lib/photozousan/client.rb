@@ -6,6 +6,9 @@ require 'pp'
 
 module Photozousan
   class Client
+    PHOTO_INFO_URL = "https://api.photozou.jp/rest/photo_info.json?photo_id="
+    PHOTO_ALBUM_PHOTO_URL = "https://api.photozou.jp/rest/photo_album_photo.json"
+
     def initialize(id, pass)
       @certs = [id, pass]
       @base_dir = "Original_#{Time.now.strftime('%Y%m%d%H%M%S')}"
@@ -19,7 +22,7 @@ module Photozousan
     private
 
     def get_original_image_uri(photo_id)
-      extInfo_uri = URI.parse('https://api.photozou.jp/rest/photo_info.json?photo_id=' + photo_id.to_s)
+      extInfo_uri = URI.parse(PHOTO_INFO_URL + photo_id.to_s)
       extInfo = JSON.parse(URI.open(extInfo_uri).read)
       original_image_url = extInfo['info']['photo']['original_image_url']
       original_image_uri = URI.parse(original_image_url)
@@ -43,7 +46,7 @@ module Photozousan
 
     def get_all_photos(album_id, limit)
       print "\ngetting all image-urls...."
-      uri = URI.parse('https://api.photozou.jp/rest/photo_album_photo.json')
+      uri = URI.parse(PHOTO_ALBUM_PHOTO_URL)
       query = URI.encode_www_form(album_id: album_id, limit: limit)
       full_uri = URI.parse("#{uri}?#{query}")
 
