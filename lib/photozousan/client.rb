@@ -2,6 +2,7 @@ require 'open-uri'
 require 'openssl'
 require 'json'
 require 'fileutils'
+require 'pp'
 
 module Photozousan
   class Client
@@ -17,14 +18,23 @@ module Photozousan
 
     private
 
+    def get_original_image_uri(photo_id)
+      extInfo_uri = URI.parse('https://api.photozou.jp/rest/photo_info.json?photo_id=' + photo_id.to_s)
+      extInfo = JSON.parse(URI.open(extInfo_uri).read)
+      original_image_url = extInfo['info']['photo']['original_image_url']
+      original_image_uri = URI.parse(original_image_url)
+    end
+
     def download(result)
       print 'start download.....'
       result["info"]["photo"].each do |photo|
         img_uri = URI.parse(photo["original_image_url"])
         id = photo["photo_id"]
+        original_image_uri = get_original_image_uri(id)
+
         File.binwrite(
           File.join(@base_dir, "#{id}.jpg"),
-          URI.open(img_uri, http_basic_authentication: @certs).read
+          URI.open(original_image_uri, http_basic_authentication: @certs).read
         )
         print '.'
       end
