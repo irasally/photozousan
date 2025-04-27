@@ -12,7 +12,7 @@
 
 ## Usage
 
-    $ download_photozou_images
+    $ photozousan
 
 * donwload photozou-album id?: アルバムIDを入力します。フォト蔵アルバムページURL末尾の数値がアルバムURLとなります。
 
